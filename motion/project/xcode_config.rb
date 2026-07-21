@@ -55,7 +55,7 @@ module Motion; module Project
       @embed_dsym = (development? ? true : false)
       @vendor_projects = []
       @version = '1.0'
-      @swift_version = `xcrun swift -version`.strip.match(/Apple Swift version ([\d\.]+)/)[1]
+      @swift_version = `xcrun swift --version 2>&1`.strip.match(/Apple Swift version ([\d\.]+)/)[1]
       XcodeConfig.check_for_sdk_dir_with_explicit_version(xcode_developer_dir: xcode_dir, platform_names: self.platforms)
     end
 
@@ -905,7 +905,7 @@ S
       exceptions = exceptions.map { |x| "\"#{x}\"" }.join(' ')
       c_flags = "#{c_flags} -isysroot '#{sdk_path}' #{bridgesupport_cflags} #{includes.join(' ')}"
       cmd = ("RUBYOPT='' '#{File.join(bindir, 'gen_bridge_metadata')}' #{bridgesupport_flags} --cflags \"#{c_flags}\" --headers \"#{headers_file.path}\" -o '#{bs_file}' #{ "-e #{exceptions}" if exceptions.length != 0}")
-      App.info "gen_bridge_metadata", cmd
+      # App.info "gen_bridge_metadata", cmd
       if defined?(Bundler)
         Bundler.respond_to?(:with_unbundled_env) ? Bundler.with_unbundled_env { sh(cmd) } : Bundler.with_original_env { sh(cmd) }
       else

@@ -362,7 +362,7 @@ EOS
 
     def invoke_xcodebuild(cmd)
       App.info "xcodebuild", "#{XCODEBUILD_PATH} #{cmd}"
-      command = "set -o pipefail; #{XCODEBUILD_PATH} #{cmd} -UseModernBuildSystem=NO"
+      command = "set -o pipefail; #{XCODEBUILD_PATH} #{cmd}" # -UseModernBuildSystem=NO" # had been comment out
       sh command do |ok, status|
         if !ok
           App.fail <<-S.strip

@@ -90,8 +90,9 @@ task :run do
     "bs_files" => [App.config.bridgesupport_files, App.config.vendor_projects.map(&:bs_files)].flatten,
     "verbose" => App::VERBOSE
   })
-
-  repl_launcher.launch
+  unless ENV["skip_repl"]
+    repl_launcher.launch
+  end
 
   App.config.print_crash_message if $?.exitstatus != 0 && !App.config.spec_mode
   exit($?.exitstatus)
